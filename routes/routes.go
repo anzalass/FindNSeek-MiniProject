@@ -12,3 +12,9 @@ func RouteUser(e *echo.Echo, uc controller.UserController) {
 	e.POST("/login", uc.Login())
 	e.GET("/user", uc.MyProfile(), middleware.JWT([]byte("anzalasganteng")))
 }
+
+func RouteItem(e *echo.Echo, ic controller.ItemController) {
+	e.POST("/item", ic.CreateItem())
+	e.GET("/item/:page", ic.GetItemsWithPaginationAndSearch())
+
+}

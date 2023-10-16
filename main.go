@@ -24,7 +24,13 @@ func main() {
 	userController := controller.UserController{}
 	userController.InitUserController(userModel)
 
+	itemModel := model.ItemModel{}
+	itemModel.Init(db)
+	itemController := controller.ItemController{}
+	itemController.InitItemController(itemModel)
+
 	routes.RouteUser(e, userController)
+	routes.RouteItem(e, itemController)
 
 	e.Logger.Fatal(e.Start(":8000").Error())
 

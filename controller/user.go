@@ -5,6 +5,7 @@ import (
 	"findnseek/model"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
@@ -30,12 +31,13 @@ func (uc *UserController) InitUserController(um model.UserModel) {
 func (uc *UserController) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var input = model.User{}
+
 		if err := c.Bind(&input); err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{
 				"message": "Invalid user input",
 			})
 		}
-
+		input.ID = uuid.NewString()
 		var res = uc.model.Register(input)
 		if res == nil {
 			return c.JSON(http.StatusInternalServerError, map[string]any{
@@ -66,7 +68,7 @@ func (uc *UserController) Login() echo.HandlerFunc {
 			})
 		}
 
-		token, err := middleware.CreateToken(int(login.ID), login.Name)
+		token, err := middleware.CreateToken(login.ID, login.Name)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{
 				"message": "Error login",

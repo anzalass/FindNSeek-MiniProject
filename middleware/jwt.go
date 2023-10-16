@@ -8,7 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func CreateToken(id int, name string) (string, error) {
+func CreateToken(id string, name string) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["id"] = id
 	claims["name"] = name
