@@ -4,6 +4,7 @@ import (
 	"findnseek/middleware"
 	"findnseek/model"
 	"net/http"
+	"strings"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -85,23 +86,20 @@ func (uc *UserController) Login() echo.HandlerFunc {
 
 func (uc *UserController) MyProfile() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		// token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTc1MjIwOTMsImlkIjoyLCJuYW1lIjoiZ2VtcGFyIn0.Z1tP2hSrZy9nzxPFbS4panekZZnOHraQK0ycbf7B2vM"
-		var token2 = c.Get("user")
-		// var token = c.Request().Header
 
-		// res, err := middleware.ExtractToken(token2)
-		// if err != nil {
-		// 	return c.JSON(http.StatusBadRequest, map[string]any{
-		// 		"message": "bad request",
-		// 	})
-		// }
+		var token2 = c.Request().Header.Get("Authorization")
+		tokenWithoutBearer := strings.TrimPrefix(token2, "Bearer ")
 
-		// name := res["name"].(string)
+		res, err := middleware.ExtractToken(tokenWithoutBearer)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": "bad request",
+			})
+		}
 
-		return c.JSON(http.StatusOK, map[string]any{
-			"message": "berhasil",
-			// "token":   res,
-			"token2": token2,
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"message": "berhasil mendapatkan data",
+			"data":    res,
 		})
 
 	}

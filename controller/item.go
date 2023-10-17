@@ -41,21 +41,19 @@ func (ic *ItemController) CreateItem() echo.HandlerFunc {
 		src, err := file.Open()
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{
-				"error":   err.Error(),
-				"message": "Invalid file",
+				"message": fmt.Sprintf("invalid file, %s", err.Error()),
 			})
 		}
 		url, err := middleware.ImageUploader(src)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]any{
-				"error":   err.Error(),
-				"message": "Invalid file",
+				"message": fmt.Sprintf("invalid file, %s", err.Error()),
 			})
 		}
 
 		if err := c.Bind(&input); err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{
-				"message": "Invalid user input",
+				"message": fmt.Sprintf("invalid input, %s", err.Error()),
 			})
 		}
 
@@ -64,7 +62,7 @@ func (ic *ItemController) CreateItem() echo.HandlerFunc {
 		var res = ic.mdl.CreateItem(input)
 		if res == nil {
 			return c.JSON(http.StatusInternalServerError, map[string]any{
-				"message": "error register user",
+				"message": fmt.Sprintf("gagal membuat postingan, %s", err.Error()),
 			})
 		}
 
@@ -98,8 +96,12 @@ func (ic *ItemController) GetItemsWithPaginationAndSearch() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, map[string]any{
-			"message": fmt.Sprintf("sukses with page: %s and search : %s", page, search),
+			"message": "sukses mendapatkan data",
 			"data":    res,
+			"meta": map[string]any{
+				"page":  pagee,
+				"total": len(res),
+			},
 		})
 
 	}
