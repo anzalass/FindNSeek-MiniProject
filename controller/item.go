@@ -21,8 +21,6 @@ type ItemControllerInterface interface {
 	UpdateItems() echo.HandlerFunc
 	GetItemsByIdWithPengajuanAndPersetujuan() echo.HandlerFunc
 	DeleteItemsById() echo.HandlerFunc
-
-	// Login() echo.HandlerFunc
 }
 
 type ItemController struct {
