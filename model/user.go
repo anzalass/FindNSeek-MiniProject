@@ -7,7 +7,7 @@ import (
 
 type User struct {
 	gorm.Model
-	ID       int64  `json:"id" form:"id`
+	ID       string `json:"id" form:"id`
 	Name     string `json:"name" form:"name"`
 	Email    string `json:"email" form:"email"`
 	Password string `json:"password" form:"password"`
@@ -16,7 +16,6 @@ type User struct {
 type UserInterface interface {
 	Register(data User) *User
 	Login(data User) (*User, error)
-	// GetUser(data User) *User
 }
 
 type UserModel struct {
@@ -44,7 +43,6 @@ func (um *UserModel) Register(data User) *User {
 func (um *UserModel) Login(data User) (*User, error) {
 
 	if err := um.db.Where("email = ? AND password = ?", data.Email, data.Password).First(&data).Error; err != nil {
-
 		logrus.Error("model : error login user")
 		return nil, err
 	}
