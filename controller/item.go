@@ -69,9 +69,11 @@ func (ic *ItemController) CreateItem() echo.HandlerFunc {
 			})
 		}
 
+		input.Email = id_user["email"].(string)
 		input.Foto = url
 		input.ID = uuid.NewString()
 		input.Id_User = id_user["id"].(string)
+
 		fmt.Println(id_user["id"].(string))
 
 		if input.ID == "" || input.Id_User == "" || input.Judul == "" || input.Kategori == "" || input.Tanggal == "" || input.Lokasi == "" || input.Foto == "" || input.Alamat == "" || input.Deskripsi == "" || input.NoHp == "" || input.Email == "" {

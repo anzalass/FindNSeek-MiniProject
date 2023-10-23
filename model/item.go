@@ -72,8 +72,8 @@ func (im *ItemModel) UpdateStatusItem(id string) error {
 func (im *ItemModel) GetItemsWithPaginationAndSearch(judul string, kategori string, page int, perPage int) []Item {
 	var listItem = []Item{}
 
-	if judul != "" && kategori != "" {
-		if err := im.db.Where("judul LIKE ? AND  kategori LIKE ?", "%"+judul+"%", "%"+kategori+"%").Offset((page - 1) * perPage).Limit(perPage).Find(&listItem).Error; err != nil {
+	if judul != "" || kategori != "" {
+		if err := im.db.Where("judul LIKE ? OR  kategori LIKE ?", "%"+judul+"%", "%"+kategori+"%").Offset((page - 1) * perPage).Limit(perPage).Find(&listItem).Error; err != nil {
 			logrus.Error("model : error get item", err.Error())
 			return nil
 		}
@@ -118,7 +118,7 @@ func (im *ItemModel) GetItemsByID(id string) (*Item, error) {
 func (im *ItemModel) GetPengajuanByItemId(id string) ([]Pengajuan, error) {
 	var listPengajuan = []Pengajuan{}
 
-	if err := im.db.Where("id <> ?", id).Find(&listPengajuan).Error; err != nil {
+	if err := im.db.Where("id_item = ?", id).Find(&listPengajuan).Error; err != nil {
 		logrus.Error("model : error get pengajuan by items id", err)
 		return nil, err
 	}
@@ -130,7 +130,7 @@ func (im *ItemModel) GetPengajuanByItemId(id string) ([]Pengajuan, error) {
 func (im *ItemModel) GetPersetujuanByID(id string) (*Persetujuan, error) {
 	var persetujuan = Persetujuan{}
 
-	if err := im.db.Where("id <> ?", id).First(&persetujuan).Error; err != nil {
+	if err := im.db.Where("id_item = ?", id).Find(&persetujuan).Error; err != nil {
 		logrus.Error("model : error get persetujuan by items id", err)
 		return nil, err
 	}

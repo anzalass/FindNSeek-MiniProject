@@ -82,6 +82,7 @@ func (pc *PengajuanController) CreatePengajuan() echo.HandlerFunc {
 		input.Foto = url
 		input.ID = uuid.NewString()
 		input.Id_User = id_user["id"].(string)
+		input.Email = id_user["email"].(string)
 		input.Id_Item = id_item
 
 		if input.ID == "" || input.Id_User == "" || input.Judul == "" || input.Kategori == "" || input.Id_Item == "" || input.Tanggal == "" || input.Lokasi == "" || input.Foto == "" || input.Alamat == "" || input.Deskripsi == "" || input.Email == "" {
