@@ -59,11 +59,6 @@ func TestCreatePengajuan(t *testing.T) {
 		part.Write(fakeFileContents)
 		writer.Close()
 
-		// itemId := "e0003061-5366-4aae-9c4b-8c0d7ef2970b"
-		// db := model.InitModel()
-		// item := model.Item{}
-		// db.First(&item, "id = ?", itemId)
-
 		e.POST("/pengajuan/:id", ctl.CreatePengajuan())
 		req := httptest.NewRequest(http.MethodPost, "/pengajuan/:id", body)
 		req.Header.Set(echo.HeaderContentType, writer.FormDataContentType())
