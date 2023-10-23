@@ -14,7 +14,7 @@ type User struct {
 }
 
 type UserInterface interface {
-	Register(data User) *User
+	Register(data User) (*User, error)
 	Login(data User) (*User, error)
 }
 
@@ -32,12 +32,13 @@ func NewUserModel(db *gorm.DB) UserInterface {
 	}
 }
 
-func (um *UserModel) Register(data User) *User {
+func (um *UserModel) Register(data User) (*User, error) {
 	if err := um.db.Create(&data).Error; err != nil {
 		logrus.Error("model : error register user")
+		return nil, err
 	}
 
-	return &data
+	return &data, nil
 }
 
 func (um *UserModel) Login(data User) (*User, error) {

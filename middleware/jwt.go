@@ -8,10 +8,11 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func CreateToken(id string, name string) (string, error) {
+func CreateToken(id string, name string, email string) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["id"] = id
 	claims["name"] = name
+	claims["email"] = email
 	claims["exp"] = time.Now().Add(time.Hour * 100).Unix()
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -25,12 +26,9 @@ func ExtractToken(tokenString string) (map[string]any, error) {
 	_, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte("anzalasganteng"), nil
 	})
-	// ... error handling
 	if err != nil {
 		logrus.Error("Error extracting")
 	}
-
-	// do something with decoded claims
 	for key, val := range claims {
 		fmt.Printf("Key: %v, value: %v\n", key, val)
 	}

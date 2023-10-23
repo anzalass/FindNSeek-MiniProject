@@ -13,6 +13,7 @@ import (
 type UserControllerInterface interface {
 	Register() echo.HandlerFunc
 	Login() echo.HandlerFunc
+	MyProfile() echo.HandlerFunc
 }
 
 type UserController struct {
@@ -38,9 +39,15 @@ func (uc *UserController) Register() echo.HandlerFunc {
 				"message": "Invalid user input",
 			})
 		}
+
 		input.ID = uuid.NewString()
-		var res = uc.model.Register(input)
-		if res == nil {
+		if input.Name == "" || input.Email == "" || input.Password == "" || input.ID == "" {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": "Invalid user input",
+			})
+		}
+		res, err := uc.model.Register(input)
+		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]any{
 				"message": "error register user",
 			})
@@ -69,7 +76,7 @@ func (uc *UserController) Login() echo.HandlerFunc {
 			})
 		}
 
-		token, err := middleware.CreateToken(login.ID, login.Name)
+		token, err := middleware.CreateToken(login.ID, login.Name, login.Email)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{
 				"message": "Error login",

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documents</title>
+  </head>
+
+  <style>
+    body {
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      background-color: palegreen;
+    }
+
+    h3 {
+      text-align: center;
+      width: 60%;
+      margin: auto;
+    }
+  </style>
+
+  <body>
+    <h2>Hello {{ .Name }}, Apakah Ini Barang Mu Yang Hilang?</h2>
+    <button>
+      <a href="{{ .URL }}">Cek Disini</a>
+    </button>
+    <img src="{{ .Img }}" alt="" />
+  </body>
+</html>

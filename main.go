@@ -2,6 +2,7 @@ package main
 
 import (
 	"findnseek/controller"
+	"findnseek/middleware"
 	"findnseek/model"
 	"findnseek/routes"
 	_ "fmt"
@@ -34,10 +35,17 @@ func main() {
 	pengajuanController := controller.PengajuanController{}
 	pengajuanController.InitPengajuanController(pengajuanModel)
 
+	persetujuanModel := model.PersetujuanModel{}
+	persetujuanModel.Init(db)
+	persetujuanController := controller.PersetujuanController{}
+	persetujuanController.InitPersetujuanController(persetujuanModel)
+
 	routes.RouteUser(e, userController)
 	routes.RouteItem(e, itemController)
 	routes.RoutePengajuan(e, pengajuanController)
+	routes.RoutePersetujuan(e, persetujuanController, itemController)
 
 	e.Logger.Fatal(e.Start(":8000").Error())
+	middleware.LoggerMiddleware(e)
 
 }
