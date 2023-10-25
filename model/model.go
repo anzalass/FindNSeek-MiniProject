@@ -7,7 +7,7 @@ import (
 )
 
 func InitModel() *gorm.DB {
-	dsn := "root:@tcp(localhost:3306)/findnseek?parseTime=true"
+	dsn := "anzalas:@tcp(localhost:3306)/findnseek?parseTime=true"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		logrus.Error("Couldn't conect database")
