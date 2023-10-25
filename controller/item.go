@@ -139,6 +139,39 @@ func (ic *ItemController) UpdateStatusItem() echo.HandlerFunc {
 			})
 		}
 
+		token := c.Request().Header.Get("Authorization")
+		tokenWithoutBearer := strings.TrimPrefix(token, "Bearer ")
+		id_user, err := middleware.ExtractToken(tokenWithoutBearer)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": fmt.Sprintf("cant get id_user, %s", err.Error()),
+			})
+		}
+
+		db := model.InitModel()
+		item := model.Item{}
+		if err := db.First(&item, "id = ?", id).Error; err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": fmt.Sprintf("invalid input, %s", err.Error()),
+			})
+		}
+
+		if id_user["id"].(string) != item.Id_User {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": "ini bukan barang milikmu, tidak boleh mengeditnya",
+				"meta": map[string]interface{}{
+					"id_user":      id_user["id"].(string),
+					"item id_user": item.Id_User,
+				},
+			})
+		}
+
+		if item.Status == 1 {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": "anda sudah mengubah status nya",
+			})
+		}
+
 		_, res := ic.mdl.GetItemsByID(id)
 		if res != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{
@@ -224,6 +257,15 @@ func (ic *ItemController) UpdateItems() echo.HandlerFunc {
 			})
 		}
 
+		token := c.Request().Header.Get("Authorization")
+		tokenWithoutBearer := strings.TrimPrefix(token, "Bearer ")
+		id_user, err := middleware.ExtractToken(tokenWithoutBearer)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": fmt.Sprintf("cant get id_user, %s", err.Error()),
+			})
+		}
+
 		//
 		db := model.InitModel()
 		item := model.Item{}
@@ -239,10 +281,21 @@ func (ic *ItemController) UpdateItems() echo.HandlerFunc {
 			})
 		}
 
+		if id_user["id"].(string) != item.Id_User {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": "ini bukan barang milikmu, tidak boleh mengeditnya",
+				"meta": map[string]interface{}{
+					"id_user":      id_user["id"].(string),
+					"item id_user": item.Id_User,
+				},
+			})
+		}
+
 		//
 
 		input.ID = id
 		input.Foto = url
+		input.Email = id_user["email"].(string)
 		res, errr := ic.mdl.UpdateItemsById(input)
 		if errr != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]any{
@@ -256,6 +309,8 @@ func (ic *ItemController) UpdateItems() echo.HandlerFunc {
 			"meta": map[string]interface{}{
 				"id": id,
 			},
+			"id_user":      id_user["id"].(string),
+			"item id_user": item.Id_User,
 		})
 	}
 }
@@ -263,6 +318,15 @@ func (ic *ItemController) UpdateItems() echo.HandlerFunc {
 func (ic *ItemController) DeleteItemsById() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var id = c.Param("id")
+
+		token := c.Request().Header.Get("Authorization")
+		tokenWithoutBearer := strings.TrimPrefix(token, "Bearer ")
+		id_user, erro := middleware.ExtractToken(tokenWithoutBearer)
+		if erro != nil {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": fmt.Sprintf("cant get id_user, %s", erro.Error()),
+			})
+		}
 
 		db := model.InitModel()
 		item := model.Item{}
@@ -278,6 +342,16 @@ func (ic *ItemController) DeleteItemsById() echo.HandlerFunc {
 			})
 		}
 
+		if id_user["id"].(string) != item.Id_User {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": "ini bukan barang milikmu, tidak boleh menghapusnya",
+				"meta": map[string]interface{}{
+					"id_user":      id_user["id"].(string),
+					"item id_user": item.Id_User,
+				},
+			})
+		}
+
 		err := ic.mdl.DeleteItemsById(id)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]any{
@@ -287,7 +361,9 @@ func (ic *ItemController) DeleteItemsById() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, map[string]any{
-			"message": "sukses menghapus data",
+			"message":      "sukses menghapus data",
+			"id_user":      id_user["id"].(string),
+			"item id_user": item.Id_User,
 		})
 
 	}

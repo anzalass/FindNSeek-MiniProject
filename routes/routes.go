@@ -29,6 +29,6 @@ func RoutePengajuan(e *echo.Echo, pc controller.PengajuanController) {
 }
 
 func RoutePersetujuan(e *echo.Echo, pc controller.PersetujuanController, ic controller.ItemController) {
-	e.PUT("/persetujuan", pc.CreatePersetujuan(), echojwt.JWT([]byte("anzalasganteng")))
+	e.PUT("/persetujuan/:id", pc.CreatePersetujuan(), echojwt.JWT([]byte("anzalasganteng")))
 	e.GET("/persetujuan/:id", pc.GetPersetujuanByID(), echojwt.JWT([]byte("anzalasganteng")))
 }

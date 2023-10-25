@@ -32,7 +32,12 @@ func (pc *PersetujuanController) InitPersetujuanController(pm model.PersetujuanM
 
 func (pc *PersetujuanController) CreatePersetujuan() echo.HandlerFunc {
 	return func(c echo.Context) error {
-
+		var id_item = c.Param("id")
+		if id_item == "" {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": "id not found",
+			})
+		}
 		var input = model.Persetujuan{}
 
 		if err := c.Bind(&input); err != nil {
@@ -54,7 +59,7 @@ func (pc *PersetujuanController) CreatePersetujuan() echo.HandlerFunc {
 
 		id := id_user["id"].(string)
 		var item = model.Item{}
-		if err := db.First(&item, "id = ?", input.Id_Item).Error; err != nil {
+		if err := db.First(&item, "id = ?", id_item).Error; err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{
 				"message": fmt.Sprintf("cant get item email, %s", err.Error()),
 			})
@@ -63,6 +68,16 @@ func (pc *PersetujuanController) CreatePersetujuan() echo.HandlerFunc {
 		if item.Status == 1 {
 			return c.JSON(http.StatusBadRequest, map[string]any{
 				"message": "anda sudah melakukan persetujuan sebelumnya",
+			})
+		}
+
+		if id_user["id"].(string) != item.Id_User {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": "ini bukan barang milikmu, tidak boleh mengeditnya",
+				"meta": map[string]interface{}{
+					"id_user":      id_user["id"].(string),
+					"item id_user": item.Id_User,
+				},
 			})
 		}
 
@@ -81,6 +96,7 @@ func (pc *PersetujuanController) CreatePersetujuan() echo.HandlerFunc {
 		}
 
 		input.Id_User = id
+		input.Id_Item = id_item
 		input.ID = uuid.NewString()
 
 		res, err := pc.mdl.CreatePersetujuan(input)
