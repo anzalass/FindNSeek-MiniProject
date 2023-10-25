@@ -14,7 +14,7 @@ func SendEmailPenngajuan(img string, to string, url string, name string) error {
 	m.SetAddressHeader("Cc", "gempar835@gmail.com", "Dan")
 	m.SetHeader("Subject", "Find N Seek!")
 	m.SetBody("text/html", fmt.Sprintf("<h2>Hei Apakah Ini Barang Miiikmu?</h2> <img src=%s>", img))
-	m.Attach(img)
+	// m.Attach(img)
 
 	d := gomail.NewDialer("smtp.gmail.com", 587, "gempar835@gmail.com", "xqrfdvnmscimxsgs")
 	if err := d.DialAndSend(m); err != nil {
