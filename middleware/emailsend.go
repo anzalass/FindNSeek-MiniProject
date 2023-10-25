@@ -11,7 +11,7 @@ import (
 
 func SendEmailPenngajuan(img string, to string, url string, name string) error {
 	var body bytes.Buffer
-	t, err := template.ParseFiles("/home/ubuntu/findnseek/FindNSeek-MiniProject/middleware/template.html")
+	t, err := template.ParseFiles("./template.html")
 	if err != nil {
 		logrus.Error("Failed to parse template:", err)
 		return err
