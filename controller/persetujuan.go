@@ -73,7 +73,7 @@ func (pc *PersetujuanController) CreatePersetujuan() echo.HandlerFunc {
 
 		if id_user["id"].(string) != item.Id_User {
 			return c.JSON(http.StatusBadRequest, map[string]any{
-				"message": "ini bukan barang milikmu, tidak boleh mengeditnya",
+				"message": "ini bukan barang milikmu, tidak boleh membuat persetujuan",
 				"meta": map[string]interface{}{
 					"id_user":      id_user["id"].(string),
 					"item id_user": item.Id_User,
