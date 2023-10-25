@@ -79,6 +79,11 @@ func (pc *PengajuanController) CreatePengajuan() echo.HandlerFunc {
 
 		}
 
+		if id_user["id"].(string) == item.Id_User {
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": "anda tidak bisa membuat pengajuan barang di barang yang anda sendiri",
+			})
+		}
 		input.Foto = url
 		input.ID = uuid.NewString()
 		input.Id_User = id_user["id"].(string)
