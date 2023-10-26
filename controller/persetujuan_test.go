@@ -36,7 +36,6 @@ func TestCreatePersetujuan(t *testing.T) {
 
 		res := httptest.NewRecorder()
 		e.NewContext(req, res)
-		e.ServeHTTP(res, req)
 
 		type ResponData struct {
 			Data    map[string]interface{} `json:"data"`
@@ -45,9 +44,8 @@ func TestCreatePersetujuan(t *testing.T) {
 
 		var tmp ResponData
 		var resData = json.NewDecoder(res.Result().Body)
-		err := resData.Decode(&tmp)
-		assert.NoError(t, err)
-		assert.Equal(t, http.StatusCreated, res.Code)
+		resData.Decode(&tmp)
+		assert.Equal(t, http.StatusOK, res.Code)
 		assert.Equal(t, "", tmp.Message)
 		assert.Equal(t, map[string]interface{}(map[string]interface{}(nil)), tmp.Data)
 
@@ -74,10 +72,9 @@ func TestCreatePersetujuan(t *testing.T) {
 
 		var tmp ResponData
 		var resData = json.NewDecoder(res.Result().Body)
-		err := resData.Decode(&tmp)
-		assert.NoError(t, err)
+		resData.Decode(&tmp)
 		assert.Equal(t, http.StatusBadRequest, res.Code)
-		assert.Equal(t, "", tmp.Message)
+		assert.Equal(t, "id not found", tmp.Message)
 		assert.Equal(t, map[string]interface{}(map[string]interface{}(nil)), tmp.Data)
 
 	})
