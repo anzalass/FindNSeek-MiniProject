@@ -296,6 +296,7 @@ func (ic *ItemController) UpdateItems() echo.HandlerFunc {
 		input.ID = id
 		input.Foto = url
 		input.Email = id_user["email"].(string)
+		input.NoHp = c.FormValue("no_hp")
 		res, errr := ic.mdl.UpdateItemsById(input)
 		if errr != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]any{
