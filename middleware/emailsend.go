@@ -31,7 +31,7 @@ func SendEmailPersetujuan(to string, wa string, name string) error {
 	m.SetHeader("To", to)
 	m.SetAddressHeader("Cc", "gempar835@gmail.com", "Dan")
 	m.SetHeader("Subject", "Find N Seek!")
-	m.SetBody("text/html", fmt.Sprintf("<h2>Hei Ternyata Benar Yang Kau Temui %s silahkan hubungi nomor nya ya %s</h2>", name, wa))
+	m.SetBody("text/html", fmt.Sprintf("<h2>Hei Ternyata Benar Yang Kau Temui milik, %s silahkan hubungi nomor nya ya : %s</h2>", name, wa))
 
 	d := gomail.NewDialer("smtp.gmail.com", 587, "gempar835@gmail.com", "xqrfdvnmscimxsgs")
 	if err := d.DialAndSend(m); err != nil {
