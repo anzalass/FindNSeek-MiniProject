@@ -309,9 +309,6 @@ func (ic *ItemController) UpdateItems() echo.HandlerFunc {
 			"meta": map[string]interface{}{
 				"id": id,
 			},
-			"id_user":      id_user["id"].(string),
-			"item id_user": item.Id_User,
-			"nohp":         input.NoHp,
 		})
 	}
 }
