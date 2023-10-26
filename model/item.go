@@ -142,7 +142,7 @@ func (im *ItemModel) GetPersetujuanByID(id string) (*Persetujuan, error) {
 func (im *ItemModel) UpdateItemsById(data Item) (*Item, error) {
 	var item = Item{}
 
-	if err := im.db.Model(&item).Where("id = ?", data.ID).Updates(map[string]interface{}{"judul": data.Judul, "kategori": data.Kategori, "tanggal": data.Tanggal, "lokasi": data.Lokasi, "foto": data.Foto, "alamat": data.Alamat, "deskripsi": data.Deskripsi, "email": data.Email}).Error; err != nil {
+	if err := im.db.Model(&item).Where("id = ?", data.ID).Updates(map[string]interface{}{"judul": data.Judul, "kategori": data.Kategori, "tanggal": data.Tanggal, "lokasi": data.Lokasi, "foto": data.Foto, "alamat": data.Alamat, "deskripsi": data.Deskripsi, "email": data.Email, "no_hp": data.NoHp}).Error; err != nil {
 		logrus.Error("model : error updating item : ", err)
 		return &item, nil
 	}
