@@ -69,7 +69,9 @@ func (pc *PengajuanController) CreatePengajuan() echo.HandlerFunc {
 
 		item, err := pc.mdl.CekStatusItemFromPengajuan(id_item)
 		if err != nil {
-			logrus.Error("error cek status item", err.Error())
+			return c.JSON(http.StatusBadRequest, map[string]any{
+				"message": fmt.Sprintf(err.Error()),
+			})
 		}
 
 		if item.Status == 1 {
