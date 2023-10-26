@@ -312,6 +312,7 @@ func (ic *ItemController) UpdateItems() echo.HandlerFunc {
 			},
 			"id_user":      id_user["id"].(string),
 			"item id_user": item.Id_User,
+			"nohp":         c.FormValue("no_hp"),
 		})
 	}
 }
