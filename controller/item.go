@@ -359,9 +359,7 @@ func (ic *ItemController) DeleteItemsById() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, map[string]any{
-			"message":      "sukses menghapus data",
-			"id_user":      id_user["id"].(string),
-			"item id_user": item.Id_User,
+			"message": "sukses menghapus data",
 		})
 
 	}
