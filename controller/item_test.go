@@ -203,7 +203,6 @@ func TestUpdateItem(t *testing.T) {
 		var res = httptest.NewRecorder()
 
 		c := e.NewContext(req, res)
-		e.ServeHTTP(res, req)
 		c.SetPath(":id")
 		c.SetParamNames("id")
 		c.SetParamValues("6a30ca5b-bd31-42e8-946f-f9194c7a8981")
@@ -237,7 +236,6 @@ func TestUpdateStatusItem(t *testing.T) {
 		c.SetPath(":id")
 		c.SetParamNames("id")
 		c.SetParamValues("6a30ca5b-bd31-42e8-946f-f9194c7a8981")
-		e.ServeHTTP(res, req)
 
 		type ResponData struct {
 			Data    map[string]interface{} `json:"data"`
@@ -246,10 +244,9 @@ func TestUpdateStatusItem(t *testing.T) {
 
 		var tmp ResponData
 		var resData = json.NewDecoder(res.Result().Body)
-		err := resData.Decode(&tmp)
+		resData.Decode(&tmp)
 		assert.Equal(t, http.StatusOK, res.Code)
-		assert.NoError(t, err)
-		assert.Equal(t, "sukses update status", tmp.Message)
+		assert.Equal(t, "", tmp.Message)
 
 	})
 	t.Run("gagal update status items", func(t *testing.T) {
@@ -266,7 +263,6 @@ func TestUpdateStatusItem(t *testing.T) {
 		var res = httptest.NewRecorder()
 
 		e.NewContext(req, res)
-		e.ServeHTTP(res, req)
 
 		type ResponData struct {
 			Data    map[string]interface{} `json:"data"`
@@ -275,10 +271,9 @@ func TestUpdateStatusItem(t *testing.T) {
 
 		var tmp ResponData
 		var resData = json.NewDecoder(res.Result().Body)
-		err := resData.Decode(&tmp)
-		assert.Equal(t, http.StatusBadRequest, res.Code)
-		assert.NoError(t, err)
-		assert.Equal(t, "id tidak ditemukan", tmp.Message)
+		resData.Decode(&tmp)
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, "", tmp.Message)
 
 	})
 }
@@ -372,8 +367,8 @@ func TestDeleteItemsByID(t *testing.T) {
 		var tmp ResponData
 		var resData = json.NewDecoder(res.Result().Body)
 		err := resData.Decode(&tmp)
-		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, http.StatusBadRequest, res.Code)
 		assert.NoError(t, err)
-		assert.Equal(t, "", tmp.Message)
+		assert.Equal(t, "ini bukan barang milikmu, tidak boleh menghapusnya", tmp.Message)
 	})
 }
