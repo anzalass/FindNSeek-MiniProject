@@ -111,7 +111,7 @@ func (pc *PengajuanController) CreatePengajuan() echo.HandlerFunc {
 		}
 
 		//
-		hasl := middleware.SendEmailPenngajuan(input.Foto, item.Email, fmt.Sprintf("http://http://13.210.70.71:8000/pengajuan/%s", input.ID), user.Name)
+		hasl := middleware.SendEmailPenngajuan(input.Foto, item.Email, fmt.Sprintf("http://13.210.70.71:8000/pengajuan/%s", input.ID), user.Name)
 		if hasl != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]any{
 				"message": fmt.Sprintf("gagal mengirim email, %s", err.Error()),

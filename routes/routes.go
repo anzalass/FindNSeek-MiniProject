@@ -25,7 +25,7 @@ func RouteItem(e *echo.Echo, ic controller.ItemController) {
 func RoutePengajuan(e *echo.Echo, pc controller.PengajuanController) {
 	e.POST("/pengajuan/:id", pc.CreatePengajuan(), echojwt.JWT([]byte("anzalasganteng")))
 	e.GET("/pengajuans/:id", pc.GetPengajuanByItemId(), echojwt.JWT([]byte("anzalasganteng")))
-	e.GET("/pengajuan/:id", pc.GetPengajuanById(), echojwt.JWT([]byte("anzalasganteng")))
+	e.GET("/pengajuan/:id", pc.GetPengajuanById())
 }
 
 func RoutePersetujuan(e *echo.Echo, pc controller.PersetujuanController, ic controller.ItemController) {
