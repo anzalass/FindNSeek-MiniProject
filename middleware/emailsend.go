@@ -13,7 +13,7 @@ func SendEmailPenngajuan(img string, to string, url string, name string) error {
 	m.SetHeader("To", to)
 	m.SetAddressHeader("Cc", "gempar835@gmail.com", "Dan")
 	m.SetHeader("Subject", "Find N Seek!")
-	m.SetBody("text/html", fmt.Sprintf("<h2>Hei Apakah Ini Barang Miiikmu?</h2> <img src=%s>", img))
+	m.SetBody("text/html", fmt.Sprintf("<h2>Hei Apakah Ini Barang Miiikmu?</h2> <img src=%s> <a href=%s>Cek Disini</a>", img, url))
 	// m.Attach(img)
 
 	d := gomail.NewDialer("smtp.gmail.com", 587, "gempar835@gmail.com", "xqrfdvnmscimxsgs")
