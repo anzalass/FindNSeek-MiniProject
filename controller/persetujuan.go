@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"findnseek/config"
 	"findnseek/middleware"
 	"findnseek/model"
 	"fmt"
@@ -54,8 +55,8 @@ func (pc *PersetujuanController) CreatePersetujuan() echo.HandlerFunc {
 				"message": fmt.Sprintf("cant get id_user, %s", err.Error()),
 			})
 		}
-
-		db := model.InitModel()
+		config := config.InitConfig()
+		db := model.InitModel(*config)
 
 		id := id_user["id"].(string)
 		var item = model.Item{}

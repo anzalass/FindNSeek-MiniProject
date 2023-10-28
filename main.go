@@ -1,6 +1,7 @@
 package main
 
 import (
+	"findnseek/config"
 	"findnseek/controller"
 	"findnseek/middleware"
 	"findnseek/model"
@@ -17,7 +18,9 @@ func main() {
 		return c.JSON(http.StatusOK, "Find N Seek")
 	})
 
-	db := model.InitModel()
+	var config = config.InitConfig()
+
+	db := model.InitModel(*config)
 	model.Migrate(db)
 
 	userModel := model.UserModel{}

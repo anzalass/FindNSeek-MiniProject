@@ -1,16 +1,22 @@
 package routes
 
 import (
+	"findnseek/config"
 	"findnseek/controller"
 
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 )
 
+func loadconf() *config.ProgramConfig {
+	config := config.InitConfig()
+	return config
+}
+
 func RouteUser(e *echo.Echo, uc controller.UserController) {
-	e.POST("/register", uc.Register())                                    // done
-	e.POST("/login", uc.Login())                                          // done
-	e.GET("/user", uc.MyProfile(), echojwt.JWT([]byte("anzalasganteng"))) // done
+	e.POST("/register", uc.Register())                                     // done
+	e.POST("/login", uc.Login())                                           // done
+	e.GET("/user", uc.MyProfile(), echojwt.JWT([]byte(loadconf().Secret))) // done
 }
 
 func RouteItem(e *echo.Echo, ic controller.ItemController) {

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"findnseek/config"
 	"findnseek/middleware"
 	_ "findnseek/middleware"
 	"findnseek/model"
@@ -147,8 +148,8 @@ func (ic *ItemController) UpdateStatusItem() echo.HandlerFunc {
 				"message": fmt.Sprintf("cant get id_user, %s", err.Error()),
 			})
 		}
-
-		db := model.InitModel()
+		config := config.InitConfig()
+		db := model.InitModel(*config)
 		item := model.Item{}
 		if err := db.First(&item, "id = ?", id).Error; err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{
@@ -266,8 +267,8 @@ func (ic *ItemController) UpdateItems() echo.HandlerFunc {
 			})
 		}
 
-		//
-		db := model.InitModel()
+		config := config.InitConfig()
+		db := model.InitModel(*config)
 		item := model.Item{}
 		if err := db.First(&item, "id = ?", id).Error; err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{
@@ -325,8 +326,8 @@ func (ic *ItemController) DeleteItemsById() echo.HandlerFunc {
 				"message": fmt.Sprintf("cant get id_user, %s", erro.Error()),
 			})
 		}
-
-		db := model.InitModel()
+		config := config.InitConfig()
+		db := model.InitModel(*config)
 		item := model.Item{}
 		if err := db.First(&item, "id = ?", id).Error; err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{
