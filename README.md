@@ -2,7 +2,7 @@
 
 Find N Seek yang memiliki arti mencari dan menemukan adalah platform/api pencarian barang atau hal apapun yang hilang, API ini ditulis menggunakan bahasa Go sebagai bahasa utama, echo sebagai framework, gorm sebagai orm, dan mysql sebagai database nya api ini diharapkan bisa memudahkan siapapun yang sedang mencari sesuatu yang hilang
 
-Gambaran Singkat mengenai API Find N Seek
+### Gambaran Singkat mengenai API Find N Seek
   1. Setiap user dapat mempublish barang yang dicari
   2. Setiap user juga dapat mengajukan barang yang ditemukan ke user yang mencari
   3. Setiap ada pengajuan, user yang mencari akan mendapatkan notifikasi berupa gambar, yang dikirim melalui email
