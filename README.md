@@ -1,4 +1,4 @@
-# FindNSeek-MiniProject
+# Find N Seek
 
 Find N Seek memiliki arti mencari dan menemukan, adalah API Server pencarian barang atau lainya yang hilang, program ini ditulis menggunakan Go sebagai bahasa utama, echo sebagai framework, gorm sebagai orm, dan mysql sebagai database nya, api ini diharapkan bisa memudahkan siapapun yang sedang mencari sesuatu yang hilang
 
